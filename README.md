@@ -189,16 +189,3 @@ Ensure tests and documentation are updated where applicable.
 MIT License
 
 ---
-
-This now looks like a serious SaaS repository.
-
-If you want next level polish, we can add:
-
-* Live demo badge
-* CI/CD status badge
-* Version badge
-* Contributor count badge
-* Architecture diagram section
-
-Tell me if this repo is hackathon-only or long-term startup build.
-
