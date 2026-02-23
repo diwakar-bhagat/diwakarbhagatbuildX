@@ -1,8 +1,4 @@
-Understood. Below is your **Hireox.AI** README written in clean GitHub format with stack logos (via shields.io), no emojis, structured professionally.
 
-You can paste this directly into `README.md`.
-
----
 
 # Hireox.AI
 
