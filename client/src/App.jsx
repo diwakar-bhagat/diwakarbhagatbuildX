@@ -12,6 +12,7 @@ import Pricing from './pages/Pricing'
 import InterviewReport from './pages/InterviewReport'
 
 export const ServerUrl = import.meta.env.VITE_API_URL || "https://diwakarbhagatbuildx.onrender.com"
+axios.defaults.withCredentials = true
 
 function App() {
 
