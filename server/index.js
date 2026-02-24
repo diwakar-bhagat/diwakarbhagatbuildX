@@ -10,11 +10,18 @@ import interviewRouter from "./routes/interview.route.js"
 import paymentRouter from "./routes/payment.route.js"
 
 const app = express()
+
+const isProduction = process.env.NODE_ENV === "production"
+
+const allowedOrigins = isProduction
+    ? [
+        process.env.CLIENT_URL,
+        "https://diwakarbhagatbuildx-client.onrender.com"
+    ].filter(Boolean)
+    : true
+
 app.use(cors({
-    origin: [
-        "https://diwakarbhagatbuildx-client.onrender.com",
-        "http://localhost:5173"
-    ],
+    origin: allowedOrigins,
     credentials: true
 }))
 
