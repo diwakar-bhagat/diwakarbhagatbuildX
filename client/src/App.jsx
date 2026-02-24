@@ -10,6 +10,8 @@ import InterviewPage from './pages/InterviewPage'
 import InterviewHistory from './pages/InterviewHistory'
 import Pricing from './pages/Pricing'
 import InterviewReport from './pages/InterviewReport'
+import { getRedirectResult } from 'firebase/auth'
+import { auth } from './utils/firebase'
 
 export const ServerUrl = import.meta.env.VITE_API_URL || "https://diwakarbhagatbuildx.onrender.com"
 axios.defaults.withCredentials = true
@@ -18,19 +20,32 @@ function App() {
 
   const dispatch = useDispatch()
   useEffect(() => {
-    const getUser = async () => {
+    // Handle Firebase redirect result (runs on every page load after Google redirect)
+    const handleRedirect = async () => {
       try {
-        const result = await axios.get(ServerUrl + "/api/user/current-user", { withCredentials: true })
+        const response = await getRedirectResult(auth)
+        if (response) {
+          const { displayName: name, email } = response.user
+          const result = await axios.post(ServerUrl + "/api/auth/google", { name, email })
+          dispatch(setUserData(result.data))
+          return // skip getUser since we just signed in
+        }
+      } catch (error) {
+        console.log("Redirect auth error:", error)
+      }
+
+      // If no redirect result, check if user is already logged in
+      try {
+        const result = await axios.get(ServerUrl + "/api/user/current-user")
         dispatch(setUserData(result.data))
       } catch (error) {
-        // 401 is expected when user is not logged in — handle silently
         if (error.response?.status !== 401) {
           console.error("Failed to fetch user:", error.message)
         }
         dispatch(setUserData(null))
       }
     }
-    getUser()
+    handleRedirect()
 
   }, [dispatch])
   return (
